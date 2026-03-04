@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 class Expense:
 
 	def __init__(self, amount, category, description, date):
@@ -25,20 +27,11 @@ class ExpenseTracker:
 		return {category: [e for e in self.expenses if e.category == category]}
 
 	def monthly_totals(self):
-		months = ['January', 'February', 'March', 'April', ' May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-		monthly_dictionary = {}
-		for month in months:
-			monthly_dictionary[month] = []
-
+		totals = defaultdict(float)
 		for expense in self.expenses:
 			month = expense.date.split(' ')[0]
-			monthly_dictionary[month].append(expense.amount)
-
-		for month, expense in monthly_dictionary.items():
-			total = sum(monthly_dictionary[month])
-			monthly_dictionary[month] = total
-
-		return monthly_dictionary
+			totals[month] += expense.amount
+		return dict(totals)
 
 	def total(self):
 		return sum(expense.amount for expense in self.expenses)
