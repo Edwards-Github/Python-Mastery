@@ -8,7 +8,17 @@ class BinaryTree():
 	def __init__(self, node):
 		self.node = node
 
-	# def insert_node(self, node):
+	def insert(self, val):
+		self.node = self.insert_node(self.node, val)
+
+	def insert_node(self, node, val):
+		if not node:
+			return TreeNode(val)
+		if val < node.val:
+			node.left = self.insert_node(node.left, val)
+		elif val > node.val:
+			node.right = self.insert_node(node.right, val)
+		return node
 
 	def search(self, node, target):
 		if not node:
@@ -27,11 +37,8 @@ class BinaryTree():
 		print(root.val)
 		self.inorder_traversal(root.right)
 
-left_left = TreeNode(4)
-left = TreeNode(2, left_left)
-right = TreeNode(3)
-root = TreeNode(1, left, right)
-head = BinaryTree(root)
+tree = BinaryTree(None)
+for val in [5, 3, 7, 1, 4, 6, 8]:
+	tree.insert(val)
 
-head.inorder_traversal(root)
-print(head.search(root, left_left).val)
+tree.inorder_traversal(tree.node)
